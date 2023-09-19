@@ -10,8 +10,8 @@ global _start
 ;-----------------------------
 
 section .bss
-    pn: resb BUFFER_MAX
-    sn: resb BUFFER_MAX
+    fname: resb BUFFER_MAX
+    lname: resb BUFFER_MAX
 
 section .text
 print_space:
@@ -47,24 +47,24 @@ read_text:
     ret
 
 print_greetings:
-    mov rcx, hello
+    mov rcx, greeting_line
     call print_text
-    mov rcx, pn
+    mov rcx, fname
     call print_text
     call print_space
-    mov rcx, sn
+    mov rcx, lname
     call print_text
     call print_newline
     ret
 
 _start:
+    mov rcx, fname_prompt
+    call print_text
     mov rcx, fname
-    call print_text
-    mov rcx, pn
     call read_text
-    mov rcx, lname
+    mov rcx, lname_prompt
     call print_text
-    mov rcx, sn
+    mov rcx, lname
     call read_text
     call print_greetings
 _exit:
@@ -73,8 +73,8 @@ _exit:
     int 0x80
 
 section .data
-    fname:          db "First name: ", 0
-    lname:          db "Last name: ", 0
-    hello:          db "Hello, ", 0
+    fname_prompt:   db "First name: ", 0
+    lname_prompt:   db "Last name: ", 0
+    greeting_line:  db "Hello, ", 0
     space:          db " ", 0
     newline:        db 0xA, 0
